@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "google" {
-  credentials = file("/root/terraformsample/commoncloud-terraform.json")
+  credentials = file("commoncloud-terraform.json")
   project     = var.project_name
   region      = var.region_name
 }
