@@ -1,15 +1,21 @@
-resource "google_sql_database" "database_deletion_policy" {
-  name     = var.database_name
-  instance = google_sql_database_instance.instance.name
-  deletion_policy = var.psql_del_pol
+terraform {
+  required_providers{
+    google = {
+      source = "hashicorp/google"
+      version = ">=4.0.0"
+    }
+  }
 }
 
-resource "google_sql_database_instance" "instance" {
-  name             = var.psql_name
-  region           = var.region_name
-  database_version = var.dbversion
-  settings {
-    tier = var.dbinstance_tier
-  }
-    deletion_protection  = var.del_prot
+provider "google" {
+  credentials = file("/root/terraformsample/commoncloud-terraform.json")
+  project     = var.project_name
+  region      = var.region_name
+}
+
+#call the module
+module "createpsql" {
+  source="./psql"
+  database_name=psqldb02
+  psql_name=psqldbinstance02
 }
